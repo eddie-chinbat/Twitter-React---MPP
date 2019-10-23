@@ -249,14 +249,12 @@ var style = {
 // // // For tables
 // //
 //
-const thArray = [["name","John"],["city","New York"]];
+const thArray = [["id"],["User name"]];
 const tdArray = [
-  ["1", "Dakota Rice"],
-  ["2", "Minerva Hooper"],
-  ["3", "Sage Rodriguez"],
-  ["4", "Philip Chaney"],
-  ["5", "Doris Greene"],
-  ["6", "Mason Porter"]
+  ["1", "Tamir"],
+  ["2", "Odko"],
+  ["3", "Test"],
+  ["4", "Uya"],
 ];
 
 //

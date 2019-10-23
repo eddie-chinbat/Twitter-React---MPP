@@ -2,14 +2,15 @@ import React, { Component } from "react";
 import ChartistGraph from "react-chartist";
 import { Grid, Row, Col, Table } from "react-bootstrap";
 import { thArray, tdArray } from "variables/Variables.jsx";
-
+import {env} from "../environment";
 import { Card } from "components/Card/Card.jsx";
 import { StatsCard } from "components/StatsCard/StatsCard.jsx";
-import { Tasks } from "components/Tasks/Tasks.jsx";
+import Clock from 'react-live-clock';
+import axios from 'axios';
 // import { TableList } from "components/";
 import {
-  dataPie,
-  legendPie,
+  // dataPie,
+  // legendPie,
   dataSales,
   optionsSales,
   responsiveSales,
@@ -20,7 +21,15 @@ import {
   legendBar
 } from "variables/Variables.jsx";
 
-// this is git test
+var dataPie1 = {
+  labels: [3, 1, 1],
+  series: [3, 1, 1]
+};
+var legendPie1 = {
+  names: ["Iowa", "Colorado", "California"],
+  types: ["info", "danger", "warning"]
+};
+
 class FunctionalData extends Component {
   createLegend(json) {
     var legend = [];
@@ -32,6 +41,31 @@ class FunctionalData extends Component {
     }
     return legend;
   }
+
+  componentWillMount(){
+    const getUserURL = env.BASEV2;
+
+    //getTotalUsers
+    axios.get(getUserURL + "/getTotalUser", {}).then(response => {
+      localStorage.setItem("totalUser",  JSON.stringify(response.data));
+    })
+
+    //getInactiveUsers
+    axios.get(getUserURL + "/numberOfNotweetedPerson?k=100", {}).then(response => {
+      localStorage.setItem("inactiveUser",  JSON.stringify(response.data));
+    })
+
+    //getfollowers
+    axios.get(getUserURL + env.getFollower + localStorage.getItem("uid"), {}).then(response => {
+      localStorage.setItem("followers",  JSON.stringify(response.data.length));
+    })
+    
+    //getfollowing
+    axios.get(getUserURL + env.getFollowing + localStorage.getItem("uid"), {}).then(response => {
+      localStorage.setItem("following",  JSON.stringify(response.data.length));
+    })
+  }
+
   render() {
     return (
       <div className="content">
@@ -40,37 +74,37 @@ class FunctionalData extends Component {
             <Col lg={3} sm={6}>
               <StatsCard
                 bigIcon={<i className="pe-7s-server text-warning" />}
-                statsText="Capacity"
-                statsValue="105GB"
+                statsText="Total users"
+                statsValue={localStorage.getItem("totalUser")}
                 statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
+                statsIconText={<span>Updated <Clock format={'HH:mm:ss'} timezone={'US/Pacific'} /></span>}
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-wallet text-success" />}
-                statsText="Revenue"
-                statsValue="$1,345"
+                bigIcon={<i className="fa fa-eye-slash text-danger" />}
+                statsText="Inactive users"
+                statsValue={localStorage.getItem("inactiveUser")}
                 statsIcon={<i className="fa fa-calendar-o" />}
                 statsIconText="Last day"
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="pe-7s-graph1 text-danger" />}
-                statsText="Errors"
-                statsValue="23"
+                bigIcon={<i className="fa fa-twitter text-info" />}
+                statsText="Following"
+                statsValue={localStorage.getItem("following")}
                 statsIcon={<i className="fa fa-clock-o" />}
-                statsIconText="In the last hour"
+                statsIconText={<span>Updated <Clock format={'HH:mm:ss'} timezone={'US/Pacific'} /></span>}
               />
             </Col>
             <Col lg={3} sm={6}>
               <StatsCard
-                bigIcon={<i className="fa fa-twitter text-info" />}
+                bigIcon={<i className="fa fa-users text-info" />}
                 statsText="Followers"
-                statsValue="+45"
+                statsValue= {localStorage.getItem("followers")}
                 statsIcon={<i className="fa fa-refresh" />}
-                statsIconText="Updated now"
+                statsIconText={<span>Updated <Clock format={'HH:mm:ss'} timezone={'US/Pacific'} /></span>}
               />
             </Col>
           </Row>
@@ -100,19 +134,19 @@ class FunctionalData extends Component {
             <Col md={4}>
               <Card
                 statsIcon="fa fa-clock-o"
-                title="Email Statistics"
-                category="Last Campaign Performance"
-                stats="Campaign sent 2 days ago"
+                title="Location statistics"
+                category=""
+                stats={<span>Updated <Clock format={'HH:mm:ss'} timezone={'US/Pacific'} /></span>}
                 content={
                   <div
                     id="chartPreferences"
                     className="ct-chart ct-perfect-fourth"
                   >
-                    <ChartistGraph data={dataPie} type="Pie" />
+                    <ChartistGraph data={dataPie1} type="Pie" />
                   </div>
                 }
                 legend={
-                  <div className="legend">{this.createLegend(legendPie)}</div>
+                  <div className="legend">{this.createLegend(legendPie1)}</div>
                 }
               />
             </Col>
@@ -122,9 +156,9 @@ class FunctionalData extends Component {
             <Col md={6}>
               <Card
                 id="chartActivity"
-                title="2014 Sales"
-                category="All products including Taxes"
-                stats="Data information certified"
+                title="Weekly active"
+                category=""
+                stats="Updated now"
                 statsIcon="fa fa-check"
                 content={
                   <div className="ct-chart">
@@ -144,8 +178,8 @@ class FunctionalData extends Component {
 
             <Col md={6}>
               <Card
-                  title="Striped Table with Hover"
-                  category="Here is a subtitle for this table"
+                  title="Users"
+                  category=""
                   ctTableFullWidth
                   ctTableResponsive
                   content={
