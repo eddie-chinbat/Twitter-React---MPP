@@ -20,7 +20,7 @@ import {
   legendBar
 } from "variables/Variables.jsx";
 
-
+// this is git test
 class FunctionalData extends Component {
   createLegend(json) {
     var legend = [];
