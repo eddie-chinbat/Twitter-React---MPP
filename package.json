@@ -5,7 +5,7 @@
   "dependencies": {
     "@material-ui/core": "^4.5.1",
     "axios": "^0.19.0",
-    "bootstrap": "3.3.7",
+    "bootstrap": "3.4.1",
     "chartist": "0.10.1",
     "ciqu-react-calendar": "^1.0.2",
     "env-cmd": "^10.0.1",
