@@ -10,7 +10,7 @@
     "ciqu-react-calendar": "^1.0.2",
     "env-cmd": "^10.0.1",
     "jwt-decode": "^2.2.0",
-    "node-sass": "4.12.0",
+    "node-sass": "4.14.1",
     "react": "^16.8.6",
     "react-apollo": "^3.1.2",
     "react-bootstrap": "0.32.4",
